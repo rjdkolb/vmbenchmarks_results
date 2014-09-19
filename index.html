@@ -1,0 +1,598 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Line Chart</title>
+        <script src="js/Chart.min.js"></script>
+        <script src="js/legend.js"></script>
+        <script type="text/javascript" src="js/libs/SyntaxHighlighter/scripts/shCore.js"></script>
+        <script type="text/javascript" src="js/libs/SyntaxHighlighter/scripts/shBrushJava.js"></script>
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <link type="text/css" rel="stylesheet" href="js/libs/legend.css"/>
+        <link type="text/css" rel="stylesheet" href="js/libs/SyntaxHighlighter/styles/shCore.css"/>
+        <link type="text/css" rel="stylesheet" href="js/libs/SyntaxHighlighter/styles/shCoreDefault.css"/>
+        
+        <link type="text/css" rel="stylesheet" href="js/libs/SyntaxHighlighter/styles/shCoreMidnight.css"/>
+        
+        
+        <script type="text/javascript">SyntaxHighlighter.all();</script>
+    </head>
+    
+
+
+
+
+    
+    <body>
+        <table style="width:100%">
+            
+            <tr>
+                
+                <td><h1>DynamicLanguages.groovy</h1><canvas id="canvas1" height="450" width="700"></canvas><div id="lineLegend"></div></td>
+                <td>
+<ul class="legend">
+    <li><b>Graph Legend</b></li>
+    <li><span class="icedtea"></span>IcedTea ZERO ops/second</li>
+    <li><span class="jamvm"></span>IcedTea JamVM ops/second</li>
+</ul>
+
+<pre id ='codeblock' class='brush: java;  gutter: true;'>
+@Benchmark
+public Object groovy() {
+    Binding binding = new Binding();
+    binding.setVariable("foo", new Integer(2));
+    GroovyShell shell = new GroovyShell(binding);
+
+    return shell.evaluate("x = 123; return foo * 10 +x ");
+}
+</pre></td>
+                
+            </tr>
+            
+            <tr><!--  -->
+                
+                <td><h1>ExceptionsBenchMark.throwRuntimeException</h1><canvas id="canvas2" height="450" width="700"></canvas></td>
+                <td><ul class="legend">    <li><b>Graph Legend</b></li>    <li><span class="icedtea"></span>IcedTea ZERO ops/second</li>    <li><span class="jamvm"></span>IcedTea JamVM ops/second</li></ul><pre id ='codeblock' class='brush: java;  gutter: true;'>
+@Benchmark
+public RuntimeException throwRuntimeException() {
+    try {
+        if (500 == 500) {
+            throw new RuntimeException();
+        }
+    } catch (RuntimeException rExp) {
+        return rExp;
+    }
+    return null;
+}
+</pre></td>
+                
+            </tr>
+            
+                        <tr><!-- -->
+                <td><h1>GeneratePoiWorkBook.generatePoiWorkBook</h1><canvas id="canvas3" height="450" width="700"></canvas></td>
+                <td><ul class="legend">    <li><b>Graph Legend</b></li>    <li><span class="icedtea"></span>IcedTea ZERO ops/second</li>    <li><span class="jamvm"></span>IcedTea JamVM ops/second</li></ul><pre id ='codeblock' class='brush: java;  gutter: true;'>
+@Benchmark
+public void generatePoiWorkBook() throws IOException {
+    Workbook wb = new HSSFWorkbook();
+    CreationHelper createHelper = wb.getCreationHelper();
+    Sheet sheet = wb.createSheet("new sheet");
+    Row row = sheet.createRow((short) 0);
+
+    Cell cell = row.createCell(0);
+    cell.setCellValue(counter.incrementAndGet());
+
+    // Or do it on one line.
+    row.createCell(1).setCellValue(1.2);
+    row.createCell(2).setCellValue(
+            createHelper.createRichTextString("This is a string"));
+    row.createCell(3).setCellValue(true);
+    wb.write(new ByteArrayOutputStream());
+}
+</pre></td>
+                
+            </tr>
+                        <tr><!--  -->
+                            <td><h1>GeneratePrimeNumbersWithForLoop.generatePrime</h1><canvas id="canvas4" height="450" width="700"></canvas></td>
+                <td><ul class="legend">    <li><b>Graph Legend</b></li>    <li><span class="icedtea"></span>IcedTea ZERO ops/second</li>    <li><span class="jamvm"></span>IcedTea JamVM ops/second</li></ul><pre id ='codeblock' class='brush: java;  gutter: true;'>
+@Benchmark
+public void generatePrime() {
+    int max = 100;
+    for (int i = 1; i < max; i++) {
+        boolean isPrimeNumber = true;
+
+        // check to see if the number is prime
+        for (int j = 2; j < i; j++) {
+            if (i % j == 0) {
+                isPrimeNumber = false;
+                break; // exit the inner for loop
+            }
+        }
+    }
+}
+</pre></td>
+                
+            </tr>
+                        <tr><!--  -->
+                <td><h1>Jackson.jsonMashal</h1><canvas id="canvas5" height="450" width="700"></canvas></td>
+                <td><ul class="legend">    <li><b>Graph Legend</b></li>    <li><span class="icedtea"></span>IcedTea ZERO ops/second</li>    <li><span class="jamvm"></span>IcedTea JamVM ops/second</li></ul><pre id ='codeblock' class='brush: java;  gutter: true;'>
+@Benchmark
+public String jsonMashal() throws Exception {
+    ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+    return mapper.writeValueAsString(new User(User.Gender.MALE, new Name("Person"+counter,"last"), true, new byte[0]));
+}
+</pre></td>
+                
+            </tr>
+                        <tr><!--  -->
+                <td><h1>Jackson.jsonUnmashal</h1><canvas id="canvas6" height="450" width="700"></canvas></td>
+                <td><ul class="legend">    <li><b>Graph Legend</b></li>    <li><span class="icedtea"></span>IcedTea ZERO ops/second</li>    <li><span class="jamvm"></span>IcedTea JamVM ops/second</li></ul><pre id ='codeblock' class='brush: java;  gutter: true;'>
+public static final String user1JsonStart = "{\n"
+        + "  \"name\" : { \"first\" : \"Joe\", \"last\" : \"Sixpack";
+public static final String user1JsonEnd ="\" },\n"
+        + "  \"gender\" : \"MALE\",\n"
+        + "  \"verified\" : false,\n"
+        + "  \"userImage\" : \"Rm9vYmFyIQ==\"\n"
+        + "}";
+
+@Benchmark
+public User jsonUnmashal() throws Exception {
+    ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+    StringBuilder jsonUser = new StringBuilder();
+    jsonUser.append(user1JsonStart).append( counter.incrementAndGet()).append(user1JsonEnd);
+    User user = mapper.readValue(jsonUser.toString(), User.class);
+    return user;
+}
+</pre></td>
+                
+            </tr>
+                        <tr><!--  -->
+                <td><h1>Reflection.doReflection</h1><canvas id="canvas7" height="450" width="700"></canvas></td>
+                <td><ul class="legend">    <li><b>Graph Legend</b></li>    <li><span class="icedtea"></span>IcedTea ZERO ops/second</li>    <li><span class="jamvm"></span>IcedTea JamVM ops/second</li></ul><pre id ='codeblock' class='brush: java;  gutter: true;'>
+@Benchmark
+public static void doReflection() throws Exception {
+    SomeClass a = (SomeClass) Class.forName("com.github.vmbenchmarks.SomeClass").newInstance();
+    a.getString();
+}
+</pre></td>
+                
+            </tr>
+                        <tr><!--  -->
+                <td><h1>Reflection.withoutReflection</h1><canvas id="canvas8" height="450" width="700"></canvas></td>
+                <td><ul class="legend">    <li><b>Graph Legend</b></li>    <li><span class="icedtea"></span>IcedTea ZERO ops/second</li>    <li><span class="jamvm"></span>IcedTea JamVM ops/second</li></ul><pre id ='codeblock' class='brush: java;  gutter: true;'>
+@Benchmark
+public static void withoutReflection() throws Exception {
+    SomeClass a = new SomeClass();
+    a.getString();
+}
+</pre></td>
+                
+            </tr>
+                        <tr><!--  -->
+                <td><h1>RegularExpressions.validateEmail</h1><canvas id="canvas9" height="450" width="700"></canvas></td>
+                <td><ul class="legend">    <li><b>Graph Legend</b></li>    <li><span class="icedtea"></span>IcedTea ZERO ops/second</li>    <li><span class="jamvm"></span>IcedTea JamVM ops/second</li></ul><pre id ='codeblock' class='brush: java;  gutter: true;'>
+public static AtomicInteger counter = new AtomicInteger(1);
+    
+@Benchmark
+public boolean validateEmail(){
+    String emailreg = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    Pattern pattern = Pattern.compile(emailreg);
+    Matcher matcher = pattern.matcher("richard"+counter.incrementAndGet()+"@GMail.com");
+    return matcher.matches();
+}
+</pre></td>
+                
+            </tr>
+
+
+            
+            
+            
+        </table> 
+
+
+
+
+
+        <script>
+            Chart.defaults.global = {
+                // Boolean - Whether to animate the chart
+                animation: false,
+                // Number - Number of animation steps
+                animationSteps: 60,
+                // String - Animation easing effect
+                animationEasing: "easeOutQuart",
+                // Boolean - If we should show the scale at all
+                showScale: true,
+                // Boolean - If we want to override with a hard coded scale
+                scaleOverride: false,
+                // ** Required if scaleOverride is true **
+                // Number - The number of steps in a hard coded scale
+                scaleSteps: null,
+                // Number - The value jump in the hard coded scale
+                scaleStepWidth: null,
+                // Number - The scale starting value
+                scaleStartValue: null,
+                // String - Colour of the scale line
+                scaleLineColor: "rgba(0,0,0,.1)",
+                // Number - Pixel width of the scale line
+                scaleLineWidth: 1,
+                // Boolean - Whether to show labels on the scale
+                scaleShowLabels: true,
+                // Interpolated JS string - can access value
+                scaleLabel: "<%=value%>",
+                // Boolean - Whether the scale should stick to integers, not floats even if drawing space is there
+                scaleIntegersOnly: true,
+                // Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+                scaleBeginAtZero: false,
+                // String - Scale label font declaration for the scale label
+                scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                // Number - Scale label font size in pixels
+                scaleFontSize: 12,
+                // String - Scale label font weight style
+                scaleFontStyle: "normal",
+                // String - Scale label font colour
+                scaleFontColor: "#666",
+                // Boolean - whether or not the chart should be responsive and resize when the browser does.
+                responsive: false,
+                // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                maintainAspectRatio: true,
+                // Boolean - Determines whether to draw tooltips on the canvas or not
+                showTooltips: true,
+                // Array - Array of string names to attach tooltip events
+                tooltipEvents: ["mousemove", "touchstart", "touchmove"],
+                // String - Tooltip background colour
+                tooltipFillColor: "rgba(0,0,0,0.8)",
+                // String - Tooltip label font declaration for the scale label
+                tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                // Number - Tooltip label font size in pixels
+                tooltipFontSize: 14,
+                // String - Tooltip font weight style
+                tooltipFontStyle: "normal",
+                // String - Tooltip label font colour
+                tooltipFontColor: "#fff",
+                // String - Tooltip title font declaration for the scale label
+                tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                // Number - Tooltip title font size in pixels
+                tooltipTitleFontSize: 14,
+                // String - Tooltip title font weight style
+                tooltipTitleFontStyle: "bold",
+                // String - Tooltip title font colour
+                tooltipTitleFontColor: "#fff",
+                // Number - pixel width of padding around tooltip text
+                tooltipYPadding: 6,
+                // Number - pixel width of padding around tooltip text
+                tooltipXPadding: 6,
+                // Number - Size of the caret on the tooltip
+                tooltipCaretSize: 8,
+                // Number - Pixel radius of the tooltip border
+                tooltipCornerRadius: 6,
+                // Number - Pixel offset from point x to tooltip edge
+                tooltipXOffset: 10,
+                // String - Template string for single tooltips
+                tooltipTemplate: "<%if (label){%>Operations / second<%=label%>: <%}%><%= value %>",
+                // String - Template string for single tooltips
+                multiTooltipTemplate: "<%= value %>",
+                legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+                // Function - Will fire on animation progression.
+                onAnimationProgress: function() {
+                },
+                // Function - Will fire on animation completion.
+                onAnimationComplete: function() {
+                }
+            }
+
+
+
+            var randomScalingFactor = function() {
+                return Math.round(Math.random() * 100)
+            };
+            var lineChartData1 = {
+                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "#FF5A5E",
+                        strokeColor: "#FF5A5F",
+                        pointColor: "#FF5A5F",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "#FF5A5F",
+                        data: [0.220, 7.428, 9.579, 9.807, 10.108, 10.369, 10.447, 10.565, 10.317, 10.526, 7.745, 10.694, 10.595, 10.664, 10.591, 10.595, 10.534, 10.865, 10.675, 8.371
+                        ]
+                    },
+                    {
+                        label: "My Second dataset",
+                        fillColor: "rgba(0,26,225,1)",
+                        strokeColor: "rgba(0,26,225,1)",
+                        pointColor: "rgba(0,26,225,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(0,26,225,1)",
+                        data: [0.391, 8.970, 9.959, 9.327, 10.409, 9.559, 9.480, 9.425, 9.386, 8.284, 8.319, 7.719, 6.617, 4.178, 10.274, 8.552, 10.410, 8.727, 8.766, 9.004]
+                    }
+                ]
+
+            }
+            var lineChartData2 = {
+                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "#FF5A5E",
+                        strokeColor: "#FF5A5F",
+                        pointColor: "#FF5A5F",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "#FF5A5F",
+                        data: [63258.012, 68864.252, 69822.294, 69950.425, 70106.952, 70009.518, 70155.361, 70131.528, 70170.141, 70259.322, 70136.728, 70187.664, 70131.738, 70253.689, 70119.513, 70118.960, 73767.784, 73707.653, 72218.634, 72021.251
+
+                        ]
+                    },
+                    {
+                        label: "My Second dataset",
+                        fillColor: "rgba(0,26,225,1)",
+                        strokeColor: "rgba(0,26,225,1)",
+                        pointColor: "rgba(0,26,225,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(0,26,225,1)",
+                        data: [179857.429, 180378.756, 176827.325, 185700.732, 185461.474, 176221.791, 186156.552, 185782.527, 176038.151, 186035.561, 186015.592, 176160.173, 185799.870, 185887.974, 175956.308, 183861.712, 190051.190, 190488.086, 181892.795, 190588.657]
+                    }
+                ]
+
+            }
+            var lineChartData3 = {
+                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "#FF5A5E",
+                        strokeColor: "#FF5A5F",
+                        pointColor: "#FF5A5F",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "#FF5A5F",
+                        data: [0.691, 137.341, 161.376, 164.236, 165.271, 163.098, 165.158, 165.941, 162.341, 165.382, 164.073, 164.383, 164.077, 163.293, 162.087, 163.216, 163.771, 162.696, 163.386, 162.559
+
+                        ]
+                    },
+                    {
+                        label: "My Second dataset",
+                        fillColor: "rgba(0,26,225,1)",
+                        strokeColor: "rgba(0,26,225,1)",
+                        pointColor: "rgba(0,26,225,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(0,26,225,1)",
+                        data: [62.380, 133.034, 131.418, 136.245, 131.657, 137.364, 131.408, 131.747, 139.398, 134.663, 140.612, 134.671, 134.698, 140.344, 134.731, 140.615, 131.199, 131.683, 136.587, 131.260]
+                    }
+                ]
+
+            }
+            var lineChartData4 = {
+                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "#FF5A5E",
+                        strokeColor: "#FF5A5F",
+                        pointColor: "#FF5A5F",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "#FF5A5F",
+                        data: [17456.364, 17682.974, 17671.546, 17660.587, 17668.678, 17656.005, 17666.246, 17651.483, 17664.461, 17637.676, 17657.278, 17660.853, 17661.332, 17657.278, 17680.163, 17730.760, 17987.609, 17627.778, 17665.276, 17663.255
+
+                        ]
+                    },
+                    {
+                        label: "My Second dataset",
+                        fillColor: "rgba(0,26,225,1)",
+                        strokeColor: "rgba(0,26,225,1)",
+                        pointColor: "rgba(0,26,225,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(0,26,225,1)",
+                        data: [4588.549, 4613.108, 4680.632, 4682.985, 4681.910, 4683.026, 4683.487, 4682.742, 4682.482, 4683.585, 4682.583, 4683.611, 4671.859, 4682.914, 4683.749, 4683.111, 4683.898, 4679.668, 4683.757, 4680.844]
+                    }
+                ]
+
+            }
+            var lineChartData5 = {
+                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "#FF5A5E",
+                        strokeColor: "#FF5A5F",
+                        pointColor: "#FF5A5F",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "#FF5A5F",
+                        data: [0.520, 75.881, 81.067, 80.290, 81.956, 82.161, 82.396, 82.349, 82.657, 83.494, 81.753, 82.384, 82.497, 82.588, 81.604, 82.970, 83.205, 82.909, 82.964, 82.311
+                        ]
+                    },
+                    {
+                        label: "My Second dataset",
+                        fillColor: "rgba(0,26,225,1)",
+                        strokeColor: "rgba(0,26,225,1)",
+                        pointColor: "rgba(0,26,225,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(0,26,225,1)",
+                        data: [17.290, 83.399, 86.544, 86.957, 82.351, 86.812, 87.066, 82.088, 87.363, 86.851, 82.289, 86.678, 89.879, 84.908, 89.662, 89.876, 85.049, 89.641, 89.844, 89.749]
+                    }
+                ]
+
+            }
+            var lineChartData6 = {
+                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "#FF5A5E",
+                        strokeColor: "#FF5A5F",
+                        pointColor: "#FF5A5F",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "#FF5A5F",
+                        data: [10.510, 70.799, 77.432, 78.295, 78.714, 77.318, 77.722, 77.463, 75.664, 73.603, 74.721, 75.489, 74.950, 75.291, 75.397, 75.025, 75.042, 75.268, 75.200, 75.248
+
+                        ]
+                    },
+                    {
+                        label: "My Second dataset",
+                        fillColor: "rgba(0,26,225,1)",
+                        strokeColor: "rgba(0,26,225,1)",
+                        pointColor: "rgba(0,26,225,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(0,26,225,1)",
+                        data: [14.365, 76.275, 81.486, 78.431, 77.018, 81.318, 81.310, 77.064, 81.297, 77.265, 81.389, 81.506, 77.198, 81.347, 81.341, 76.917, 81.323, 81.471, 77.036, 81.331]
+                    }
+                ]
+
+            }
+            var lineChartData7 = {
+                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "#FF5A5E",
+                        strokeColor: "#FF5A5F",
+                        pointColor: "#FF5A5F",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "#FF5A5F",
+                        data: [57886.956, 61397.600, 61431.909, 61406.442, 61516.004, 61522.222, 61487.792, 60585.600, 61991.243, 62128.183, 61995.610, 62088.126, 61939.209, 61648.580, 61365.950, 62071.852, 61826.416, 61951.576, 62042.582, 61915.096
+
+                        ]
+                    },
+                    {
+                        label: "My Second dataset",
+                        fillColor: "rgba(0,26,225,1)",
+                        strokeColor: "rgba(0,26,225,1)",
+                        pointColor: "rgba(0,26,225,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(0,26,225,1)",
+                        data: [81246.837, 81412.845, 79734.823, 79885.432, 79831.196, 79804.489, 79759.138, 74445.113, 79745.300, 79654.439, 79915.678, 79844.732, 79942.850, 79562.318, 79376.201, 79995.906, 74062.641, 79915.244, 79732.872, 79938.524]
+                    }
+                ]
+
+            }
+            var lineChartData8 = {
+                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "#FF5A5E",
+                        strokeColor: "#FF5A5F",
+                        pointColor: "#FF5A5F",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "#FF5A5F",
+                        data: [930563.363, 1013536.331, 1000283.946, 998331.671, 997641.386, 998061.618, 992362.112, 995165.387, 994170.022, 992726.005, 994174.802, 1018386.257, 992176.670, 993360.625, 996085.494, 994705.353, 1020963.839, 1019166.285, 1021097.946, 1020882.476
+                        ]
+                    },
+                    {
+                        label: "My Second dataset",
+                        fillColor: "rgba(0,26,225,1)",
+                        strokeColor: "rgba(0,26,225,1)",
+                        pointColor: "rgba(0,26,225,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(0,26,225,1)",
+                        data: [689017.779, 693056.721, 714357.689, 715819.265, 717347.263, 715886.574, 715892.756, 716827.415, 716890.798, 717073.541, 716948.954, 716573.053, 716715.648, 716273.051, 717434.436, 715830.424, 716899.523, 752413.761, 719915.571, 722719.159]
+                    }
+                ]
+
+            }
+            var lineChartData9 = {
+                labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "#FF5A5E",
+                        strokeColor: "#FF5A5F",
+                        pointColor: "#FF5A5F",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "#FF5A5F",
+                        data: [1649.352, 2093.212, 2176.282, 2256.322, 2281.832, 2247.472, 2291.130, 2288.827, 2290.073, 2295.014, 2288.959, 2295.208, 2291.746, 2290.990, 2297.095, 2287.891, 2309.302, 2305.140, 2295.160, 2305.276
+                        ]
+                    },
+                    {
+                        label: "My Second dataset",
+                        fillColor: "rgba(0,26,225,1)",
+                        strokeColor: "rgba(0,26,225,1)",
+                        pointColor: "rgba(0,26,225,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(0,26,225,1)",
+                        data: [1678.435, 1663.500, 1775.105, 1687.390, 1680.433, 1761.356, 1671.267, 1757.625, 1667.026, 1761.068, 1664.266, 1671.427, 1759.387, 1671.267, 1760.976, 1666.357, 1754.764, 1658.576, 1664.219, 1752.833]
+                    }
+                ]
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            window.onload = function() {
+                var ctx1 = document.getElementById("canvas1").getContext("2d");
+                window.myLine = new Chart(ctx1).Bar(lineChartData1, {
+                    responsive: true
+                });
+                var ctx2 = document.getElementById("canvas2").getContext("2d");
+                window.myLine2 = new Chart(ctx2).Bar(lineChartData2, {
+                    responsive: true
+                });
+                var ctx3 = document.getElementById("canvas3").getContext("2d");
+                window.myLine2 = new Chart(ctx3).Bar(lineChartData3, {
+                    responsive: true
+                });
+                var ctx4 = document.getElementById("canvas4").getContext("2d");
+                window.myLine2 = new Chart(ctx4).Bar(lineChartData4, {
+                    responsive: true
+                });
+                var ctx5 = document.getElementById("canvas5").getContext("2d");
+                window.myLine2 = new Chart(ctx5).Bar(lineChartData5, {
+                    responsive: true
+                });
+                var ctx6 = document.getElementById("canvas6").getContext("2d");
+                window.myLine2 = new Chart(ctx6).Bar(lineChartData6, {
+                    responsive: true
+                });
+                var ctx7 = document.getElementById("canvas7").getContext("2d");
+                window.myLine2 = new Chart(ctx7).Bar(lineChartData7, {
+                    responsive: true
+                });
+                var ctx8 = document.getElementById("canvas8").getContext("2d");
+                window.myLine2 = new Chart(ctx8).Bar(lineChartData8, {
+                    responsive: true
+                });
+                var ctx9 = document.getElementById("canvas9").getContext("2d");
+                window.myLine2 = new Chart(ctx9).Bar(lineChartData9, {
+                    responsive: true
+                });
+
+
+
+
+            }
+
+
+        </script>
+    </body>
+</html>

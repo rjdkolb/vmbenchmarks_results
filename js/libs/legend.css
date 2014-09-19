@@ -1,0 +1,8 @@
+/* basic positioning */
+body {background-color:lightgrey}
+.legend { list-style: none; }
+.legend li { float: left; margin-right: 10px; }
+.legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px; }
+/* your colors */
+.legend .icedtea { background-color: #FF5A5E; }
+.legend .jamvm { background-color: rgba(0,26,225,1); }
